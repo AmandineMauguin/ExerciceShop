@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header & nav bar -->
+      <div class="w3-top"></div>
+      <nav class="w3-bar w3-white w3-card w3-animate-top">
+        <a href="#" class="w3-button w3-bar-item">HOME</a>
+        <a
+          href="#"
+          class="w3-right w3-button w3-bar-item"
+          v-on:click="displayPanier = !displayPanier"
+        >
+          ({{cart.length}}) PANIER</a
+        >
+      </nav>
+      <transition name="slide">
+        <!-- Panier-->
+        <div
+          class="w3-right w3-border "
+          v-show="displayPanier"
+        >
+          <table class="w3-table w3-white">
+            <tr>
+              <th>Produit</th>
+              <th>Prix</th>
+            </tr>
+            <tr v-for="(item, name, prix) in cart">
+              <td>{{item.name}}</td>
+              <td>{{item.prix}} ¥</td>
+            </tr>
+            <tr class="w3-border-top w3-border-bottom">
+              <td>Discount</td>
+              <td>
+                <input
+                  placeholder="Tente ta chance :v"
+                  type="text"
+                  v-model="codeReduc"
+                />
+                <p v-if="codeReduc === 'reduc' ">
+                  <!-- Quand on met le code dans l'input, il affiche directement le p c'est merveilleux. Permet une liaison bi-directionnelle de la page html au code js et vis versa  -->
+                  - 2 ¥ ! IncroyaB !
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th v-if="codeReduc === 'reduc'">
+                {{totalPrix}} - {{reduc}} = {{totalPrix - 2}} ¥
+              </th>
+              <th v-else>{{totalPrix}} ¥</th>
+            </tr>
+          </table>
+        </div>
+      </transition>
+
+      <!-- content -->
+      <div class="w3-container w3-center" style="margin-top: 40px">
+        <h1>{{title}}</h1>
+
+        <!--  products -->
+        <div class="w3-row-padding"></div>
+
+        <!--  single product -->
+        <div
+          class="w3-col l4 m6 w3-padding"
+          v-for="(product, index) in products"
+        >
+          <!-- Ajout ici de la boucle pour les produits-->
+          <img
+            :src="product.hovered === index ? product.image : product.image2"
+            width="100%"
+            v-on:mouseover="product.hovered = index"
+            v-on:mouseout="product.hovered =null"
+          />
+          <!-- SI product.hover = null  ALORS affiche l'image du produit, SINON on affiche l'image deux du produit-->
+
+          <div class="w3-container w3-center w3-border">
+            <h3>{{product.name}}</h3>
+            <h4>{{product.prix}} ¥</h4>
+            <p v-if="product.stock == 0">A pu.</p>
+            <p v-else><strong>{{product.stock}}</strong> items en stock</p>
+            <p>
+              <span v-for="(value, name) in product.tags">
+                <strong>{{ name }}</strong> : {{ value }}
+              </span>
+            </p>
+            <p>
+              <button v-on:click="addToCart( product ); displayPanier = true">
+                Ajouter au panier
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div><p>Footer</p></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+.slide-enter-active{
+    animation: slide-down 0.5s;
+}
+
+.slide-leave-active{
+    animation: slide-down .5s reverse;
+}
+
+
+@keyframes slide-down{
+    0%{
+        transform: translateY(-1000px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
